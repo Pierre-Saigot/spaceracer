@@ -1,4 +1,16 @@
+body {
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+
 #canvas{
 	width: 400px;
 	z-index: 5;
+}
+
+#splashscreen {
+    position: fixed;
+    width: 500px;
+    height: 100%;
+    margin: 0% 30%;
 }

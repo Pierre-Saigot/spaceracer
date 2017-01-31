@@ -40,13 +40,10 @@ function init() {
 
 // Fonction onResize du navigateur
 function onWindowResize() {
-    	windowHalfX     = window.innerWidth / 2;
-    	windowHalfY     = window.innerHeight / 2;
-	
     	camera.aspect     = window.innerWidth / window.innerHeight;
     	camera.updateProjectionMatrix();
 	
-    	renderer.setSize( window.innerWidth, window.innerHeight );
+    	renderer.setSize( window.innerWidth, window.innerHeight+10 );
 }
 // Fonction Animate
 function animate() {
