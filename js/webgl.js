@@ -57,15 +57,15 @@ function animate() {
 function render() {
     	renderer.render( scene, camera );
 }
+
 function controls(){
-    	$( "body" ).keydown(function(e) {
-      		if(e.keyCode == 37){
-       			mesh.position.x -= .01;
-       			console.log(mesh);
-      		}
-      		else if(e.keyCode == 39){
-        			mesh.position.x += .01;
-        			console.log(mesh.position.x);
-      		}
-	});
+        $( "body" ).keydown(function(e) {
+            if(e.keyCode == 37){
+                mesh.position.x -= .01;
+                console.log(mesh.position.x);
+            }
+            else if(e.keyCode == 39){
+                    mesh.position.x += .01;
+            }
+    });
 }
