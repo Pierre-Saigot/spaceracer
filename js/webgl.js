@@ -13,7 +13,8 @@ function init() {
 	
     	// Création de la Caméra
     	camera         	= new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 2000);
-	camera.position.z = 50
+	camera.position.z 	= 50;
+	camera.position.y 	= 10;
     	// Création de la Scène
     	scene         	= new THREE.Scene();
     		// Ajout de la Camera a la scène
@@ -31,7 +32,7 @@ function init() {
     	onWindowResize();
 
     	// Création d'un Cube
-    	geometry 	= new THREE.CubeGeometry(15,15,15)
+    	geometry 	= new THREE.CubeGeometry(5,5,5)
     	material 	= new THREE.MeshNormalMaterial('0xff0000');
     	mesh     	= new THREE.Mesh(geometry, material);
     		// Ajout du Cube a la scène
@@ -49,21 +50,22 @@ function onWindowResize() {
 function animate() {
     	requestAnimationFrame(animate);
     	render();
-        controls();
-}
-
-function controls(){
-    $( "body" ).keydown(function(e) {
-      if(e.keyCode == 37){
-        mesh.position.x -= .01;
-      }
-      else if(e.keyCode == 39){
-        mesh.position.x += .01;
-      }
-});
+        	controls();
 }
 
 // Fonction Render
 function render() {
     	renderer.render( scene, camera );
+}
+function controls(){
+    	$( "body" ).keydown(function(e) {
+      		if(e.keyCode == 37){
+       			mesh.position.x -= .01;
+       			console.log(mesh);
+      		}
+      		else if(e.keyCode == 39){
+        			mesh.position.x += .01;
+        			console.log(mesh.position.x);
+      		}
+	});
 }
