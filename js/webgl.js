@@ -48,10 +48,19 @@ function onWindowResize() {
 // Fonction Animate
 function animate() {
     	requestAnimationFrame(animate);
-
-    	mesh.rotation.y += .01;
-
     	render();
+        controls();
+}
+
+function controls(){
+    $( "body" ).keydown(function(e) {
+      if(e.keyCode == 37){
+        mesh.position.x -= .01;
+      }
+      else if(e.keyCode == 39){
+        mesh.position.x += .01;
+      }
+});
 }
 
 // Fonction Render
