@@ -32,7 +32,7 @@ function init() {
     	onWindowResize();
 
     	// Création d'un Cube
-    	geometry 	= new THREE.CubeGeometry(5,5,5)
+    	geometry 	= new THREE.CubeGeometry(5,5,0)
     	material 	= new THREE.MeshNormalMaterial('0xff0000');
     	mesh     	= new THREE.Mesh(geometry, material);
     		// Ajout du Cube a la scène
