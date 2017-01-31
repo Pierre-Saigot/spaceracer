@@ -1,7 +1,6 @@
-    // ******************** Début du WebGL ******************** \\
+ // ******************** Début du WebGL ******************** \\
     var     container, stats;
-    var     camera, scene, renderer, particles, geometry, materials = [];
-    var     parameters, i, h, color, sprite, size;
+    var     camera, scene, renderer, geometry, materials, mesh;
     var     windowHalfX = window.innerWidth / 2;
     var     windowHalfY = window.innerHeight / 2;
 
@@ -11,51 +10,54 @@
  
 // Création de la fonction Init
 function init() {
+	
+    	// Création de la Caméra
+    	camera         	= new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 2000);
+	camera.position.z = 50
+    	// Création de la Scène
+    	scene         	= new THREE.Scene();
+    		// Ajout de la Camera a la scène
+    		scene.add(camera);
 
+    	// Création de la Lumière
+    	light 		= new THREE.PointLight(0xFFFFFF, 1, 1500);
+	light.position.set( 10, 10, 10 );
+		// Ajout de la Lumière a la scène
+		scene.add(light);
 
-    var canvas = document.createElement('canvas');
+    	// Création du Render
+    	renderer     	= new THREE.WebGLRenderer();
+    	document.body.appendChild(renderer.domElement);
+    	onWindowResize();
 
-    canvas.id = "game";
-    canvas.width = 400;
-    canvas.height = $(window).height();
-    canvas.style.zIndex = 8;
-
-
-
-    var container = document.getElementById("canvas");
-    container.appendChild(canvas);
-
-    // Création de la Caméra
-    camera         = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 2000);
-
-    // Création de la Scène
-    scene         = new THREE.Scene();
-
-    // Création du Render
-    renderer     = new THREE.WebGLRenderer();
-    var geometry = new THREE.CubeGeometry(1,1,1)
-    var material = new THREE.MeshNormalMaterial()
-    var mesh     = new THREE.Mesh(geometry, material)
-    scene.add(mesh)
+    	// Création d'un Cube
+    	geometry 	= new THREE.CubeGeometry(15,15,15)
+    	material 	= new THREE.MeshNormalMaterial('0xff0000');
+    	mesh     	= new THREE.Mesh(geometry, material);
+    		// Ajout du Cube a la scène
+    		scene.add(mesh);
 }
 
 // Fonction onResize du navigateur
 function onWindowResize() {
-    windowHalfX     = window.innerWidth / 2;
-    windowHalfY     = window.innerHeight / 2;
-
-    camera.aspect     = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    	windowHalfX     = window.innerWidth / 2;
+    	windowHalfY     = window.innerHeight / 2;
+	
+    	camera.aspect     = window.innerWidth / window.innerHeight;
+    	camera.updateProjectionMatrix();
+	
+    	renderer.setSize( window.innerWidth, window.innerHeight );
 }
 // Fonction Animate
 function animate() {
-    requestAnimationFrame(animate);
-    render();
+    	requestAnimationFrame(animate);
+
+    	mesh.rotation.y += .01;
+
+    	render();
 }
 
-// // Fonction Render
+// Fonction Render
 function render() {
-    renderer.render( scene, camera );
+    	renderer.render( scene, camera );
 }
