@@ -1,14 +1,18 @@
  // ******************** Début du WebGL ******************** \\
     var     	container, stats;
     var     	camera, scene, renderer, geometry, materials, mesh;
-    var		asteroid, a_mesh, a_material;	
+    var		    asteroid, a_mesh, a_material;	
+    var         score = 0;
     var     	windowHalfX = window.innerWidth / 2;
     var     	windowHalfY = window.innerHeight / 2;
-
-// Appel des Function Init & Animate
-    	init();
-    	animate();
+    var         nb_life = 3;
  
+function life(){
+    for (var i=1; i<nb_life; i++) {
+        $('#life ul').append('<li><img src="assets/img/life.png" alt=""></li>');
+    }
+}
+
 // Création de la fonction Init
 function init() {
 	
@@ -36,19 +40,20 @@ function init() {
 
     	// Création du Vaisseau (Cube)
     	geometry 	= new THREE.CubeGeometry(5,5,5);
-    	material 	= new THREE.MeshNormalMaterial('0xff0000');
+    	material 	= new THREE.MeshNormalMaterial();
     	mesh     	= new THREE.Mesh(geometry, material);
     		
     		// Ajout du Vaisseau (Cube) a la scène
-    		scene.add(mesh);
+		scene.add(mesh);
     	asteroids();
-
+        animate();
+        life();
 }
 
 function asteroids(){
 	// Creéation des Asteroids (Sphere)
 	asteroid 		= new THREE.SphereGeometry(3, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
-	a_material		= new THREE.MeshNormalMaterial('0xffFF00');
+	a_material		= new THREE.MeshNormalMaterial();
 	a_mesh     		= new THREE.Mesh(asteroid, a_material);
 
 	// Position X Random
@@ -70,12 +75,17 @@ function onWindowResize() {
 	
     	renderer.setSize( window.innerWidth, window.innerHeight+10 );
 }
+
+
+
 // Fonction Animate
 function animate() {
     	requestAnimationFrame(animate);
-    	
-        	controls();
-	render();
+        score += 1;
+        controls();
+	    render();
+
+    $('#score').text(score);
 
 	// Animation des Asteroids
 	if (a_mesh.position.z < 50){

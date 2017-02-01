@@ -13,11 +13,21 @@
 <!-- Début du BODY -->
 <body>
 	<div id="canvas"></div>
-<!-- 	<video id="splashscreen" preload="auto" autoplay="true" loop>
+	<div id="nav">
+		<img src="assets/img/logo.png" alt="SpaceRacer">
+		<button id="btn_play">PLAY</button>
+	</div>
+	<div id="score">0000</div>
+	<div id="life">
+		<ul>
+			<li><img src="assets/img/life.png" alt=""></li>
+		</ul>
+	</div>
+<!-- <video id="splashscreen" preload="auto" autoplay="true" loop>
 	  <source src="assets/video/v.mp4" type="video/mp4"/>
 	  <source src="assets/video/v.webm" type="video/webm" />
 	  Ici l'alternative à la vidéo : un lien de téléchargement, un message, etc.
-	</video> -->
+	</video>  -->
 
 <!-- Liens vers mes Fichiers JavaScript -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -26,7 +36,7 @@
 <script src="js/main.js"></script>
 <script src="js/materialize.min.js"></script>
 <script>
-	setTimeout(function() {close_splash();}, 2000);
+	space_racer();
 </script>
 </body>
 <!-- Fin du BODY -->
