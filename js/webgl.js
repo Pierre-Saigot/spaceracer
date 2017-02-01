@@ -1,23 +1,16 @@
  // ******************** Début du WebGL ******************** \\
-    var     	container, stats;
-    var     	camera, scene, renderer, geometry, materials, mesh;
-    var		    asteroid, a_mesh, a_material;	
-    var         score = 0;
-    var     	windowHalfX = window.innerWidth / 2;
-    var     	windowHalfY = window.innerHeight / 2;
-    var         nb_life = 3;
- 
-function life(){
-    for (var i=1; i<nb_life; i++) {
-        $('#life ul').append('<li><img src="assets/img/life.png" alt=""></li>');
-    }
-}
+var     	container, stats;
+var  	camera, scene, renderer, geometry, materials, mesh;
+var	asteroid, a_mesh, a_material;	
+var       score = 0,  nb_life = 3;
+var     	windowHalfX = window.innerWidth / 2;
+var     	windowHalfY = window.innerHeight / 2;
 
 // Création de la fonction Init
 function init() {
 	
     	// Création de la Caméra
-    	camera         	= new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 2000);
+    	camera         		= new THREE.PerspectiveCamera(50,window.innerWidth/window.innerHeight,1,2000);
 	camera.position.z 	= 50;
 	camera.position.y 	= 8;
     	// Création de la Scène
@@ -27,8 +20,9 @@ function init() {
     		scene.add(camera);
 
     	// Création de la Lumière
-    	light 		= new THREE.PointLight(0xFFFFFF, 1, 1500);
-	light.position.set( 10, 10, 10 );
+    	light 		= new THREE.PointLight(0xEEEEEE, 1, 1500);
+	light.position.set( 3, 3, 3 );
+
 		
 		// Ajout de la Lumière a la scène
 		scene.add(light);
@@ -40,18 +34,67 @@ function init() {
 
     	// Création du Vaisseau (Cube)
     	geometry 	= new THREE.CubeGeometry(5,5,5);
-    	material 	= new THREE.MeshNormalMaterial();
+    	material 	= new THREE.MeshNormalMaterial({
+    			color:0xF5F5F5
+    	});
     	mesh     	= new THREE.Mesh(geometry, material);
+    	
     		
     		// Ajout du Vaisseau (Cube) a la scène
 		scene.add(mesh);
     	asteroids();
-        animate();
-        life();
+        	animate();
+        	life();
 }
 
+// Fonction Animate
+function animate() {
+    	requestAnimationFrame(animate);
+        	
+        	// Appel de la fonction controls
+        	controls();
+
+        	// Animation du Score
+    	$('#score').text(score);
+    		score += 1;
+
+	// Animation des Asteroids
+	if (a_mesh.position.z < 50){
+		a_mesh.position.z +=10;
+	}else{
+		a_mesh.position.z > 50;
+		asteroids();
+	}
+	render();
+}
+
+// Fonction Render
+function render() {
+    	renderer.render(scene, camera);
+}
+
+// Fonction Controls
+function controls(){
+    	$( "body" ).keydown(function(e) {
+      		if(e.keyCode == 37 & mesh.position.x > -38.700000000000394){
+       			mesh.position.x -= 0.02;
+      		}
+      		else if(e.keyCode == 39 & mesh.position.x < 38.700000000000394){
+        			mesh.position.x += 0.02;
+      		}
+	});
+}
+
+// Création de la fonction Life
+function life(){
+    	for (var i=1; i<nb_life; i++) {
+    	    $('#life ul').append('<li><img src="assets/img/life.png" alt=""></li>');
+    	}
+}
+
+// Création des Asteroids
 function asteroids(){
-	// Creéation des Asteroids (Sphere)
+	// Création des Asteroids (Sphere)
 	asteroid 		= new THREE.SphereGeometry(3, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
 	a_material		= new THREE.MeshNormalMaterial();
 	a_mesh     		= new THREE.Mesh(asteroid, a_material);
@@ -65,49 +108,11 @@ function asteroids(){
 	
 		// Ajout des Asteroids (Sphere) a la scène
 		scene.add(a_mesh);
-	
-	
 }
+
 // Fonction onResize du navigateur
 function onWindowResize() {
     	camera.aspect     = window.innerWidth / window.innerHeight;
     	camera.updateProjectionMatrix();
-	
-    	renderer.setSize( window.innerWidth, window.innerHeight+10 );
-}
-
-
-
-// Fonction Animate
-function animate() {
-    	requestAnimationFrame(animate);
-        score += 1;
-        controls();
-	    render();
-
-    $('#score').text(score);
-
-	// Animation des Asteroids
-	if (a_mesh.position.z < 50){
-		a_mesh.position.z +=10;
-	}else{
-		a_mesh.position.z > 50;
-		asteroids();
-	}
-
-}
-
-// Fonction Render
-function render() {
-    	renderer.render( scene, camera );
-}
-function controls(){
-    	$( "body" ).keydown(function(e) {
-      		if(e.keyCode == 37 & mesh.position.x > -38.700000000000394){
-       			mesh.position.x -= 0.02;
-      		}
-      		else if(e.keyCode == 39 & mesh.position.x < 38.700000000000394 ){
-        			mesh.position.x += 0.02;
-      		}
-	});
+    	renderer.setSize(window.innerWidth, window.innerHeight+10);
 }
