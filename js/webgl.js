@@ -2,6 +2,7 @@
 var     	container, stats;
 var  	camera, scene, renderer, geometry, materials, mesh;
 var	asteroid, a_mesh, a_material;	
+var 	v_loader, v_material;
 var       score = 0,  nb_life = 3;
 var     	windowHalfX = window.innerWidth / 2;
 var     	windowHalfY = window.innerHeight / 2;
@@ -11,19 +12,18 @@ function init() {
 	
     	// Création de la Caméra
     	camera         		= new THREE.PerspectiveCamera(50,window.innerWidth/window.innerHeight,1,2000);
-	    camera.position.z 	= 50;
-	    camera.position.y 	= 8;
+	camera.position.z 	= 50;
+	camera.position.y 	= 8;
     	// Création de la Scène
     	scene         	= new THREE.Scene();
-    		
+    
     		// Ajout de la Camera a la scène
     		scene.add(camera);
 
     	// Création de la Lumière
     	light 		= new THREE.PointLight(0xEEEEEE, 1, 1500);
-        light.position.set( 3, 3, 3 );
-
-		
+        	light.position.set( 3, 3, 3 );
+	
 		// Ajout de la Lumière a la scène
 		scene.add(light);
 
@@ -36,23 +36,36 @@ function init() {
     	geometry 	= new THREE.CubeGeometry(5,5,5);
     	material 	= new THREE.MeshNormalMaterial();
     	mesh     	= new THREE.Mesh(geometry, material);
-    	
-    		
+    	mesh.position.y -= 5;
     		// Ajout du Vaisseau (Cube) a la scène
 		scene.add(mesh);
-    	asteroids();
+
+	// // Loader pour le .obj du vaisseau
+	// v_loader = new THREE.OBJLoader();
+	// v_material = new THREE.MeshBasicMaterial({color: 'yellow', side: THREE.DoubleSide});
+	// // v_mesh 
+	// // Chargement du .obj
+	// v_loader.load('../assets/SpaceShip.obj', function(obj){
+	// 	obj.traverse(function(child){
+ //            		if (child instanceof THREE.Mesh){
+ //                			child.material = v_material;
+ //            		}
+ //        		});
+ //        		scene.add(obj);
+ //    	});
+
+           $( "body" ).keydown(function(e) {
+                	if(e.keyCode == 37 & mesh.position.x > -38.700000000000394){
+                   	 	mesh.position.x -= 4;
+               	}
+                	else if(e.keyCode == 39 & mesh.position.x < 38.700000000000394){
+                    		mesh.position.x += 4;
+                	}
+           });
+
+           asteroids();
         	animate();
         	life();
-
-        $( "body" ).keydown(function(e) {
-            if(e.keyCode == 37 & mesh.position.x > -38.700000000000394){
-                mesh.position.x -= 4;
-                console.log(mesh.position.x);
-            }
-            else if(e.keyCode == 39 & mesh.position.x < 38.700000000000394){
-                mesh.position.x += 4;
-            }
-       });
 }
 
 // Fonction Animate
@@ -95,6 +108,8 @@ function asteroids(){
 	// Position X Random
 	a_mesh.position.x 	+= Math.random() * 100;
 	a_mesh.position.x 	-= Math.random() * 100;    
+
+	a_mesh.position.y 	-= 5;
 
 	// Position Z 	
 	a_mesh.position.z  	= -500;    	
