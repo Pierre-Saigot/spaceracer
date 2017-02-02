@@ -52,7 +52,7 @@ body {
     100% {transform: scale(1);}
 }
 
-
+#gameover button,
 #nav button{
     display: block;
     padding: 17px 27px;
@@ -65,10 +65,12 @@ body {
     border: none;
     font-weight: bold;
     cursor: pointer;
+    text-transform: uppercase;
     font-size: 1.4em;
     transition: all 0.3s;
 }
 
+#gameover button:hover,
 #nav button:hover{
 	opacity: 0.6;
 	transform: scale(1.1);
@@ -94,4 +96,24 @@ body {
     font-size: 2.7em;
     left: 1%;
     top: 1%;
+    cursor: pointer;
+}
+
+#gameover {
+    position: fixed;
+    color: #FFF;
+    z-index: 150;
+    background: rgba(0, 0, 0, 0.82);
+    width: 100%;
+    top: 0;
+    left: 0;
+    text-align: center;
+    height: 100%;
+}
+
+#gameover h2 {
+    padding-top: 16%;
+    font-size: 5em;
+    font-weight: 700;
+    text-transform: uppercase;
 }
