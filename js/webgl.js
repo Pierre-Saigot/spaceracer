@@ -7,7 +7,7 @@ var       score = 0,  nb_life = 3;
 var     	windowHalfX = window.innerWidth / 2;
 var     	windowHalfY = window.innerHeight / 2;
 var         isPaused = false;
-
+var 	spaceship;
 function paused(){
     isPaused = true;
 }
@@ -38,14 +38,6 @@ function init(){
     	document.body.appendChild(renderer.domElement);
     	onWindowResize();
 
-  //   	// Création du Vaisseau (Cube)
-  //   	geometry 	= new THREE.CubeGeometry(5,5,5);
-  //   	material 	= new THREE.MeshNormalMaterial();
-  //   	mesh     	= new THREE.Mesh(geometry, material);
-  //   	mesh.position.y -= 5;
-  //   		// Ajout du Vaisseau (Cube) a la scène
-	// scene.add(mesh);
-
 	// Loader pour le .obj du vaisseau
 	objLoader 		= new THREE.OBJLoader();
 	objMaterial 		= new THREE.MeshBasicMaterial({color: 'yellow', side: THREE.DoubleSide});
@@ -57,7 +49,7 @@ function init(){
         	        			child.material = objMaterial;
         	    			}
         		});
-
+		obj.scale.set(1.5,1.5,1.5);
         		obj.position.y 	-= 5;
         		// Fonction pour faire bouger le vaisseau de gauche a droite 
         		$( "body" ).keydown(function(e) {
@@ -69,12 +61,12 @@ function init(){
                     			obj.position.x += 4;
                 		}
            		});
-
            		// Ajout de l'objet a la scène
            		scene.add(obj);
+           		spaceship = obj;
  	});
 
-
+ 	// Détection des collisions
 
            asteroids();
         	animate();
@@ -85,19 +77,19 @@ function init(){
 function animate() {
     	requestAnimationFrame(animate);
 
-        if(isPaused == false){
-            // Animation du Score
-            $('#score').text(score);
-            score += 1;
-            // Animation des Asteroids
-            if (a_mesh.position.z < 50){
-                a_mesh.position.z += 10;
-            }else{
-                a_mesh.position.z > 50;
-                asteroids();
-            }
-            render();
-        }
+        	if(isPaused == false){
+            	// Animation du Score
+            	$('#score').text(score);
+            	score += 1;
+            	// Animation des Asteroids
+            	if (a_mesh.position.z < 50){
+               		a_mesh.position.z += 10;
+            	}else{
+                		a_mesh.position.z > 50;
+                		asteroids();
+            	}
+            	render();
+        	}
 }
 
 // Fonction Render

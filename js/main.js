@@ -8,7 +8,7 @@ function space_racer(){
 	$('#btn_play').on('click', function(){
 		$( "#nav" ).fadeOut( "slow", function() {
 			$('#nav').css('display', 'none');
-			init();
+			init();	
 	 	 });
 	});
 }
