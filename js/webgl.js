@@ -9,6 +9,8 @@ var     	windowHalfY = window.innerHeight / 2;
 var         isPaused = false;
 var 	spaceship;
 var     P = {};
+var     f_left = false;
+var     f_right = false;
 
 function paused(){
     isPaused = true;
@@ -55,20 +57,29 @@ function init(){
 		obj.rotation.y = 180 * Math.PI / 180;
         		obj.position.y 	-= 10;
                 P = {Px: obj.position.x, Py: obj.position.y};
-                console.log(obj.position.y);
         		// Fonction pour faire bouger le vaisseau de gauche a droite 
-        		$( "body" ).keydown(function(e) {
-
-                		if(e.keyCode == 37 & obj.position.x > -33.700000000000394){
-                   		 	obj.position.x -= 4;
-               		}
-                		else if(e.keyCode == 39 & obj.position.x < 33.700000000000394){
-                    			obj.position.x += 4;
+        		
+                $( "body" ).keydown(function(e) {
+                		if(e.keyCode == 37){
+                            f_left = true;
+               		       }
+                		else if(e.keyCode == 39){
+                            f_right = true;
                 		}
            		});
-           		// Ajout de l'objet a la scène
+                $( "body" ).keyup(function(e) {
+                        if(e.keyCode == 37 ){
+                            f_left = false;
+                           }
+                        else if(e.keyCode == 39){
+                            f_right = false;
+                        }
+                });
+           		
+                // Ajout de l'objet a la scène
            		scene.add(obj);
-                	obj.userData 	= { keepMe: true };
+                spaceship    = obj;
+            	obj.userData 	= { keepMe: true };
  	});
 
  	// Détection des collisions
@@ -81,6 +92,13 @@ function init(){
 // Fonction Animate
 function animate() {
     	requestAnimationFrame(animate);
+
+            if(f_left == true && spaceship.position.x > -33.700000000000394){
+                spaceship.position.x -= 1;
+            }
+            if(f_right == true && spaceship.position.x < 33.700000000000394){
+                spaceship.position.x += 1;
+            }
 
         	if(isPaused == false){
             	// Animation du Score
