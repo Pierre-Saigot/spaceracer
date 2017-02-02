@@ -12,3 +12,21 @@ function space_racer(){
 	 	 });
 	});
 }
+
+function play_pause(){
+	let action = $('#play_pause');
+	if(action.hasClass('played') == true){
+		action.html('<i class="fa fa-play" aria-hidden="true"></i>');
+		action.removeClass('played').addClass('paused');
+		paused();
+	}
+	else{
+		action.removeClass('paused').addClass('played');
+		action.html('<i class="fa fa-pause" aria-hidden="true"></i>');
+		played();
+	}
+}
+
+$('#play_pause').on('click', function(){
+	play_pause();
+})

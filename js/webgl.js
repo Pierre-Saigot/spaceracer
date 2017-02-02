@@ -6,6 +6,15 @@ var 	objLoader, objMaterial, obj;
 var       score = 0,  nb_life = 3;
 var     	windowHalfX = window.innerWidth / 2;
 var     	windowHalfY = window.innerHeight / 2;
+var         isPaused = false;
+
+function paused(){
+    isPaused = true;
+}
+
+function played(){
+    isPaused = false;
+}
 
 // Création de la fonction Init
 function init(){
@@ -76,18 +85,19 @@ function init(){
 function animate() {
     	requestAnimationFrame(animate);
 
-        	// Animation du Score
-    	$('#score').text(score);
-    		score += 1;
-
-	// Animation des Asteroids
-	if (a_mesh.position.z < 50){
-		a_mesh.position.z += 10;
-	}else{
-		a_mesh.position.z > 50;
-		asteroids();
-	}
-	render();
+        if(isPaused == false){
+            // Animation du Score
+            $('#score').text(score);
+            score += 1;
+            // Animation des Asteroids
+            if (a_mesh.position.z < 50){
+                a_mesh.position.z += 10;
+            }else{
+                a_mesh.position.z > 50;
+                asteroids();
+            }
+            render();
+        }
 }
 
 // Fonction Render
