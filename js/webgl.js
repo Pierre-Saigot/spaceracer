@@ -11,8 +11,8 @@ function init() {
 	
     	// Création de la Caméra
     	camera         		= new THREE.PerspectiveCamera(50,window.innerWidth/window.innerHeight,1,2000);
-	camera.position.z 	= 50;
-	camera.position.y 	= 8;
+	    camera.position.z 	= 50;
+	    camera.position.y 	= 8;
     	// Création de la Scène
     	scene         	= new THREE.Scene();
     		
@@ -21,7 +21,7 @@ function init() {
 
     	// Création de la Lumière
     	light 		= new THREE.PointLight(0xEEEEEE, 1, 1500);
-	light.position.set( 3, 3, 3 );
+        light.position.set( 3, 3, 3 );
 
 		
 		// Ajout de la Lumière a la scène
@@ -43,14 +43,21 @@ function init() {
     	asteroids();
         	animate();
         	life();
+
+        $( "body" ).keydown(function(e) {
+            if(e.keyCode == 37 & mesh.position.x > -38.700000000000394){
+                mesh.position.x -= 4;
+                console.log(mesh.position.x);
+            }
+            else if(e.keyCode == 39 & mesh.position.x < 38.700000000000394){
+                mesh.position.x += 4;
+            }
+       });
 }
 
 // Fonction Animate
 function animate() {
     	requestAnimationFrame(animate);
-        	
-        	// Appel de la fonction controls
-        	controls();
 
         	// Animation du Score
     	$('#score').text(score);
@@ -69,19 +76,6 @@ function animate() {
 // Fonction Render
 function render() {
     	renderer.render(scene, camera);
-}
-
-// Fonction Controls
-function controls(){
-    	$( "body" ).keydown(function(e) {
-      		if(e.keyCode == 37 & mesh.position.x > -38.700000000000394){
-       			mesh.position.x -= 0.02;
-                console.log(mesh.position.x);
-      		}
-      		else if(e.keyCode == 39 & mesh.position.x < 38.700000000000394){
-    			mesh.position.x += 0.02;
-      		}
-	});
 }
 
 // Création de la fonction Life
