@@ -76,6 +76,7 @@ body {
 
 #life{
     position: absolute;
+    left: 42%;
 }
 
 #life li {
@@ -87,5 +88,10 @@ body {
     width: 25px;
 }
 
-
-
+#play_pause {
+    position: absolute;
+    color: #FFF;
+    font-size: 2.7em;
+    left: 1%;
+    top: 1%;
+}
