@@ -147,6 +147,7 @@ function clear() {
         scene.remove( to_remove[i] );
     }
     score = 0,  nb_life = 3;
+    played();
 }   
 
 // Fonction onResize du navigateur
