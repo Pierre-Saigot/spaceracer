@@ -8,6 +8,8 @@ var     	windowHalfX = window.innerWidth / 2;
 var     	windowHalfY = window.innerHeight / 2;
 var         isPaused = false;
 var 	spaceship;
+var     P = {};
+
 function paused(){
     isPaused = true;
 }
@@ -49,8 +51,10 @@ function init(){
         	        			child.material = objMaterial;
         	    			}
         		});
-		obj.scale.set(1.5,1.5,1.5);
+		        obj.scale.set(1.5,1.5,1.5);
         		obj.position.y 	-= 5;
+                P = {Px: obj.position.x, Py: obj.position.y};
+                console.log(obj.position.y);
         		// Fonction pour faire bouger le vaisseau de gauche a droite 
         		$( "body" ).keydown(function(e) {
 
@@ -64,6 +68,7 @@ function init(){
            		// Ajout de l'objet a la scène
            		scene.add(obj);
            		spaceship = obj;
+                obj.userData = { keepMe: true };
  	});
 
  	// Détection des collisions
@@ -119,11 +124,30 @@ function asteroids(){
 	a_mesh.position.y 	-= 5;
 
 	// Position Z 	
-	a_mesh.position.z  	= -500;    	
+	a_mesh.position.z  	= -500;  
+    asteroid.userData = { keepMe: false };  	
 	
 		// Ajout des Asteroids (Sphere) a la scène
 		scene.add(a_mesh);
 }
+
+function clear() {
+    var to_remove = [];
+    spaceship.position.x = P.Px;
+    spaceship.position.y = P.Py;
+
+    scene.traverse ( function( child ) {
+        if ( child instanceof THREE.Mesh && !child.userData.keepMe === true ) {
+            to_remove.push( child );
+         }
+         console.log(to_remove)
+    } );
+    
+    for (var i = 0; i < to_remove.length; i++){
+        scene.remove( to_remove[i] );
+    }
+    score = 0,  nb_life = 3;
+}   
 
 // Fonction onResize du navigateur
 function onWindowResize() {

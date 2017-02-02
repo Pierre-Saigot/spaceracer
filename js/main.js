@@ -37,5 +37,7 @@ $('#play_pause').on('click', function(){
 })
 
 $('#btn_retry').on('click', function(){
-	clearScene();
+	clear();
+	$('#gameover').css('display', 'none');
+
 })
