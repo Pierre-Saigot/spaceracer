@@ -1,29 +1,26 @@
  // ******************** Début du WebGL ******************** \\
 var     	container, stats;
-var  	camera, scene, renderer, geometry, materials, mesh;
+var  	camera, scene, renderer;
 var	asteroid, a_mesh, a_material;	
-var 	v_loader, v_material;
+var 	objLoader, objMaterial, obj;
 var       score = 0,  nb_life = 3;
 var     	windowHalfX = window.innerWidth / 2;
 var     	windowHalfY = window.innerHeight / 2;
 
 // Création de la fonction Init
-function init() {
-	
+function init(){
     	// Création de la Caméra
     	camera         		= new THREE.PerspectiveCamera(50,window.innerWidth/window.innerHeight,1,2000);
 	camera.position.z 	= 50;
 	camera.position.y 	= 8;
     	// Création de la Scène
     	scene         	= new THREE.Scene();
-    
     		// Ajout de la Camera a la scène
     		scene.add(camera);
 
     	// Création de la Lumière
     	light 		= new THREE.PointLight(0xEEEEEE, 1, 1500);
-        	light.position.set( 3, 3, 3 );
-	
+        	light.position.set(3, 3, 3);
 		// Ajout de la Lumière a la scène
 		scene.add(light);
 
@@ -32,36 +29,43 @@ function init() {
     	document.body.appendChild(renderer.domElement);
     	onWindowResize();
 
-    	// Création du Vaisseau (Cube)
-    	geometry 	= new THREE.CubeGeometry(5,5,5);
-    	material 	= new THREE.MeshNormalMaterial();
-    	mesh     	= new THREE.Mesh(geometry, material);
-    	mesh.position.y -= 5;
-    		// Ajout du Vaisseau (Cube) a la scène
-		scene.add(mesh);
+  //   	// Création du Vaisseau (Cube)
+  //   	geometry 	= new THREE.CubeGeometry(5,5,5);
+  //   	material 	= new THREE.MeshNormalMaterial();
+  //   	mesh     	= new THREE.Mesh(geometry, material);
+  //   	mesh.position.y -= 5;
+  //   		// Ajout du Vaisseau (Cube) a la scène
+	// scene.add(mesh);
 
-	// // Loader pour le .obj du vaisseau
-	// v_loader = new THREE.OBJLoader();
-	// v_material = new THREE.MeshBasicMaterial({color: 'yellow', side: THREE.DoubleSide});
-	// // v_mesh 
-	// // Chargement du .obj
-	// v_loader.load('../assets/SpaceShip.obj', function(obj){
-	// 	obj.traverse(function(child){
- //            		if (child instanceof THREE.Mesh){
- //                			child.material = v_material;
- //            		}
- //        		});
- //        		scene.add(obj);
- //    	});
+	// Loader pour le .obj du vaisseau
+	objLoader 		= new THREE.OBJLoader();
+	objMaterial 		= new THREE.MeshBasicMaterial({color: 'yellow', side: THREE.DoubleSide});
+	
+	// Chargement du .obj
+	objLoader.load('../assets/SpaceShip.obj', function(obj){
+		obj.traverse(function(child){
+        	    		if (child instanceof THREE.Mesh){
+        	        			child.material = objMaterial;
+        	    			}
+        		});
 
-           $( "body" ).keydown(function(e) {
-                	if(e.keyCode == 37 & mesh.position.x > -38.700000000000394){
-                   	 	mesh.position.x -= 4;
-               	}
-                	else if(e.keyCode == 39 & mesh.position.x < 38.700000000000394){
-                    		mesh.position.x += 4;
-                	}
-           });
+        		obj.position.y 	-= 5;
+        		// Fonction pour faire bouger le vaisseau de gauche a droite 
+        		$( "body" ).keydown(function(e) {
+
+                		if(e.keyCode == 37 & obj.position.x > -33.700000000000394){
+                   		 	obj.position.x -= 4;
+               		}
+                		else if(e.keyCode == 39 & obj.position.x < 33.700000000000394){
+                    			obj.position.x += 4;
+                		}
+           		});
+
+           		// Ajout de l'objet a la scène
+           		scene.add(obj);
+ 	});
+
+
 
            asteroids();
         	animate();
@@ -94,7 +98,8 @@ function render() {
 // Création de la fonction Life
 function life(){
     	for (var i=1; i<nb_life; i++) {
-    	    $('#life ul').append('<li><img src="assets/img/life.png" alt=""></li>');
+    	    	$('#life ul').append('<li><img src="assets/img/life.png" alt=""></li>');
+    	    	$('#life').css('display', 'block');
     	}
 }
 
