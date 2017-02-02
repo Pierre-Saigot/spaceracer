@@ -75,7 +75,7 @@ function render() {
 function controls(){
     	$( "body" ).keydown(function(e) {
       		if(e.keyCode == 37 & mesh.position.x > -38.700000000000394){
-       			mesh.position.x - 0.02;
+       			mesh.position.x -= 0.02;
                 console.log(mesh.position.x);
       		}
       		else if(e.keyCode == 39 & mesh.position.x < 38.700000000000394){
