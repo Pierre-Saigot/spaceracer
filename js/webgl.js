@@ -42,7 +42,7 @@ function init(){
 
 	// Loader pour le .obj du vaisseau
 	objLoader 		= new THREE.OBJLoader();
-	objMaterial 		= new THREE.MeshBasicMaterial({color: 'yellow', side: THREE.DoubleSide});
+	objMaterial 		= new THREE.MeshBasicMaterial({color: 'white', side: THREE.DoubleSide});
 	
 	// Chargement du .obj
 	objLoader.load('../assets/SpaceShip.obj', function(obj){
@@ -51,8 +51,9 @@ function init(){
         	        			child.material = objMaterial;
         	    			}
         		});
-		        obj.scale.set(1.5,1.5,1.5);
-        		obj.position.y 	-= 5;
+		obj.scale.set(1.5,1.5,1.5);
+		obj.rotation.y = 180 * Math.PI / 180;
+        		obj.position.y 	-= 10;
                 P = {Px: obj.position.x, Py: obj.position.y};
                 console.log(obj.position.y);
         		// Fonction pour faire bouger le vaisseau de gauche a droite 
@@ -67,8 +68,7 @@ function init(){
            		});
            		// Ajout de l'objet a la scène
            		scene.add(obj);
-           		spaceship = obj;
-                obj.userData = { keepMe: true };
+                	obj.userData 	= { keepMe: true };
  	});
 
  	// Détection des collisions
