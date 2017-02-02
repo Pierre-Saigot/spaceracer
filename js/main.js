@@ -27,6 +27,15 @@ function play_pause(){
 	}
 }
 
+function gameover(){
+	paused();
+	$('#gameover').css('display', 'block');
+}
+
 $('#play_pause').on('click', function(){
 	play_pause();
+})
+
+$('#btn_retry').on('click', function(){
+	clearScene();
 })
