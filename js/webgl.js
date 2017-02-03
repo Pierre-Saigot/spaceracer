@@ -91,8 +91,6 @@ function init(){
             	obj.userData 	= { keepMe: true };
  	});
 
- 	// Détection des collisions
-
            asteroids();
         	animate();
         	life();
@@ -119,6 +117,9 @@ function animate() {
                 spaceship.position.x += 1;
             }
 
+            spaceship.hitbox.position.x = spaceship.position.x;
+            spaceship.hitbox.position.y = spaceship.position.y;
+            spaceship.hitbox.position.z = spaceship.position.z;
 
         	if(isPaused == false){
             	// Animation du Score
@@ -175,8 +176,8 @@ function asteroids(){
 	a_mesh     		= new THREE.Mesh(asteroid, a_material);
 
 	// Position X Random
-	a_mesh.position.x 	+= Math.random() * 100;
-	a_mesh.position.x 	-= Math.random() * 100;    
+	a_mesh.position.x 	+= Math.random() * 80;
+	a_mesh.position.x 	-= Math.random() * 80;    
 
 	a_mesh.position.y 	-= 5;
 
