@@ -23,6 +23,8 @@ function played(){
 
 // Création de la fonction Init
 function init(){
+            life();
+    
     	// Création de la Caméra
     	camera         		= new THREE.PerspectiveCamera(50,window.innerWidth/window.innerHeight,1,2000);
 	camera.position.z 	= 50;
@@ -93,7 +95,6 @@ function init(){
 
            asteroids();
         	animate();
-        	life();
 }
 
 function convertDist(s, a){
