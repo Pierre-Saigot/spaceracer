@@ -3,6 +3,7 @@ var     	container, stats;
 var  	camera, scene, renderer;
 var	asteroid, a_mesh, a_material;	
 var 	objLoader, objMaterial, obj;
+var       collidableMeshList = [];
 var       score = 0,  nb_life = 3;
 var     	windowHalfX = window.innerWidth / 2;
 var     	windowHalfY = window.innerHeight / 2;
@@ -77,6 +78,14 @@ function init(){
                 });
            		
                 // Ajout de l'objet a la scène
+                obj.hitbox = new THREE.Mesh( 
+                    new THREE.SphereGeometry(6, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2),
+                    new THREE.MeshLambertMaterial({color: 0x0000ff, transparent: true, opacity: 0})
+                );
+                obj.hitbox.position.x = obj.position.x;
+                obj.hitbox.position.y = obj.position.y;
+                obj.hitbox.position.z = obj.position.z;
+                scene.add(obj.hitbox);
            		scene.add(obj);
                 spaceship    = obj;
             	obj.userData 	= { keepMe: true };
@@ -89,9 +98,19 @@ function init(){
         	life();
 }
 
+function convertDist(s, a){
+    if(!s) return;
+    let response = Math.sqrt(Math.pow((s.hitbox.position.x - a.position.x),2) + Math.pow((s.hitbox.position.z - a.position.z),2))
+    if((a_mesh.geometry.parameters.radius+s.hitbox.geometry.parameters.radius) > response){
+        return true;
+    }
+    return false;
+}
+
 // Fonction Animate
 function animate() {
     	requestAnimationFrame(animate);
+                console.log(nb_life);
 
             if(f_left == true && spaceship.position.x > -33.700000000000394){
                 spaceship.position.x -= 1;
@@ -100,12 +119,13 @@ function animate() {
                 spaceship.position.x += 1;
             }
 
+
         	if(isPaused == false){
             	// Animation du Score
             	$('#score').text(score);
             	score += 1;
             	// Animation des Asteroids
-            	if (a_mesh.position.z < 50){
+            	if (a_mesh.position.z < 30){
                		a_mesh.position.z += 10;
             	}else{
                 		a_mesh.position.z > 50;
@@ -113,6 +133,17 @@ function animate() {
             	}
             	render();
         	}
+
+            let r = convertDist(spaceship, a_mesh);
+            if(r == true){
+                nb_life --;
+                $('#life ul').html('<li><img src="assets/img/life.png" alt=""></li>');
+                if(nb_life <= 0){
+                    gameover();
+                    $('#life ul').html('');
+                }
+                life();
+            }
 }
 
 // Fonction Render
@@ -128,11 +159,19 @@ function life(){
     	}
 }
 
+function re_life(){
+        $('#life ul').append('<li><img src="assets/img/life.png" alt=""></li>');
+        for (var i=1; i<nb_life; i++) {
+                $('#life ul').append('<li><img src="assets/img/life.png" alt=""></li>');
+                $('#life').css('display', 'block');
+        }
+}
+
 // Création des Asteroids
 function asteroids(){
 	// Création des Asteroids (Sphere)
 	asteroid 		= new THREE.SphereGeometry(3, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
-	a_material		= new THREE.MeshNormalMaterial();
+	a_material		= new THREE.MeshBasicMaterial({color: 'red'});
 	a_mesh     		= new THREE.Mesh(asteroid, a_material);
 
 	// Position X Random
@@ -142,7 +181,7 @@ function asteroids(){
 	a_mesh.position.y 	-= 5;
 
 	// Position Z 	
-	a_mesh.position.z  	= -500;  
+	a_mesh.position.z  	= -400;  
     asteroid.userData = { keepMe: false };  	
 	
 		// Ajout des Asteroids (Sphere) a la scène
@@ -166,6 +205,7 @@ function clear() {
     }
     score = 0,  nb_life = 3;
     played();
+    re_life();
 }   
 
 // Fonction onResize du navigateur
